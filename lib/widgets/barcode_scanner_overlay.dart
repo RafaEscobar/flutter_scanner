@@ -17,6 +17,8 @@ class _BarcodeScannerOverlayState extends State<BarcodeScannerOverlay> {
   final MobileScannerController controller = MobileScannerController(
     formats: const [BarcodeFormat.qrCode],
   );
+  //* Estado para la linterna
+  bool isTorchOn = false;
 
   //* Función que maneja los QRs escaneados
   void _handleScanning(BarcodeCapture barcodes) {
@@ -28,6 +30,13 @@ class _BarcodeScannerOverlayState extends State<BarcodeScannerOverlay> {
         MaterialPageRoute(builder: (context) => const ReferenceScreen(),)
       );
     }
+  }
+
+  void _toggleTorch(){
+    setState(() {
+      isTorchOn = !isTorchOn;
+      controller.toggleTorch();
+    });
   }
 
   @override
@@ -68,6 +77,18 @@ class _BarcodeScannerOverlayState extends State<BarcodeScannerOverlay> {
           CustomPaint(
             painter: ScannerOverlay(scanWindow: scanWindow),
           ),
+          Positioned(
+            top: 50,
+            right: 20,
+            child: IconButton(
+              onPressed: _toggleTorch,
+              icon: Icon(
+                isTorchOn ? Icons.flash_off : Icons.flash_on,
+                size: 40,
+                color: Colors.white,
+              ),
+            ),
+          )
         ],
       ),
     );
