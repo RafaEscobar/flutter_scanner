@@ -15,7 +15,16 @@ class BarcodeScanner extends StatefulWidget {
 class _BarcodeScannerState extends State<BarcodeScanner> with SingleTickerProviderStateMixin {
   late ProviderService providerReader;
   //* Controlador para el escaner
-  final MobileScannerController controller = MobileScannerController();
+  final MobileScannerController controller = MobileScannerController(
+    detectionSpeed: DetectionSpeed.unrestricted,
+    cameraResolution: const Size(1280, 720),
+    useNewCameraSelector: true,
+    formats: const [
+      BarcodeFormat.code128,
+      BarcodeFormat.codebar,
+      BarcodeFormat.codabar
+    ]
+  );
   //* Estado para la linterna
   bool isTorchOn = false;
   //* Controlador de la animación
